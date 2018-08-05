@@ -1,0 +1,13 @@
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build
+
+# Misc
+__generated__
+.DS_Store
+
+# Jetbrains IDE
+.idea
+
+# node
+node_modules/
+
