@@ -17,6 +17,7 @@ build:
   script:
     - truffle compile
     - npm run-script build
+  artifacts:
     paths:
       - build_webpack/
 
