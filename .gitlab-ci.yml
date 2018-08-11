@@ -17,8 +17,12 @@ build:
   script:
     - truffle compile
     - npm run-script build
+    paths:
+      - build_webpack/
 
 deploy:
   stage: deploy
+  dependencies:
+    - build
   script:
-    - ls -l build_webpack
+    - ls -l build_webpack/
