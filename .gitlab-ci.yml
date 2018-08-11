@@ -9,13 +9,13 @@ cache:
   - node_modules/
 
 before_script:
-  - which node
+  - npm install
+  - npm install -g truffle@4.1.13
 
 build:
   stage: build
   script:
-    - npm install
-    - npm install -g truffle@4.1.13
+    - truffle compile
     - npm run-script build
 
 deploy:
