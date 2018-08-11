@@ -1,35 +1,42 @@
 image: node:9.11
 
-services:
-  - docker:dind
-
 stages:
-  - build
+  - build_sources
+  - build_docker
   - deploy
 
 cache:
   paths:
   - node_modules/
 
-build:
-  stage: build
+build_sources:
+  stage: build_sources
   before_script:
     - npm install
     - npm install -g truffle@4.1.13
   script:
     - truffle compile
     - npm run-script build
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
-    - docker build -t registry.gitlab.com/mikiquantum/simple-dapp-calculator .
-    - docker push registry.gitlab.com/mikiquantum/simple-dapp-calculator
   artifacts:
     paths:
       - build_webpack/
 
+build_docker:
+  stage: build_docker
+  image: docker:stable
+  services:
+    - docker:dind
+  dependencies:
+    - build_sources
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/mikiquantum/simple-dapp-calculator .
+    - docker push registry.gitlab.com/mikiquantum/simple-dapp-calculator
+
 deploy:
   stage: deploy
   dependencies:
-    - build
+    - build_docker
   when: manual
   script:
     - echo "Deploying"
