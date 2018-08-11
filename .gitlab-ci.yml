@@ -1,13 +1,24 @@
 image: node:9.11
 
+stages:
+  - build
+  - deploy
+
+cache:
+  paths:
+  - node_modules/
+
 before_script:
   - which node
 
 build:
+  stage: build
   script:
     - npm install
+    - npm install -g truffle@4.1.13
     - npm run-script build
 
-echo:
-    script:
-        - ls -l build_webpack
+deploy:
+  stage: deploy
+  script:
+    - ls -l build_webpack
