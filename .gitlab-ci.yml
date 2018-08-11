@@ -1,5 +1,5 @@
 before_script:
-
+  - which echo
 echo:
     script:
         - echo "Hello, World!"
