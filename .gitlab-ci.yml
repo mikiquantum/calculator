@@ -1,6 +1,13 @@
+image: node:9.11
+
 before_script:
-  - which echo
+  - which node
+
+build:
+  script:
+    - npm install
+    - npm run-script build
+
 echo:
     script:
-        - echo "Hello, World!"
-        - echo "Hello there!"
+        - ls -l build_webpack
