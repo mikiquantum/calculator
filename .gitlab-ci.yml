@@ -8,15 +8,17 @@ cache:
   paths:
   - node_modules/
 
-before_script:
-  - npm install
-  - npm install -g truffle@4.1.13
-
 build:
   stage: build
+  before_script:
+    - npm install
+    - npm install -g truffle@4.1.13
   script:
     - truffle compile
     - npm run-script build
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/mikiquantum/simple-dapp-calculator .
+    - docker push registry.gitlab.com/mikiquantum/simple-dapp-calculator
   artifacts:
     paths:
       - build_webpack/
@@ -26,4 +28,4 @@ deploy:
   dependencies:
     - build
   script:
-    - ls -l build_webpack/
+    - echo "Deploying"
