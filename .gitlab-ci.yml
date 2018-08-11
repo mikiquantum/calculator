@@ -3,6 +3,3 @@ before_script:
 echo:
     script:
         - echo "Hello, World!"
-    only:
-        - auto
-
