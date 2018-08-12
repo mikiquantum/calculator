@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: parity-dev
+  labels:
+    app: parity-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: parity-dev
+  template:
+    metadata:
+      labels:
+        app: parity-dev
+    spec:
+      containers:
+      - name: parity-dev
+        image: parity/parity:latest
+        args: ["--config", "dev", "--unsafe-expose", "--jsonrpc-cors=all"]
+        ports:
+        - containerPort: 8545
+        - containerPort: 8546
+        - containerPort: 30303
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: parity-dev
+spec:
+  ports:
+  - port: 8545
+    targetPort: 8545
+    protocol: TCP
+    name: jsonrpc
+  - port: 8546
+    targetPort: 8546
+    protocol: TCP
+    name: ws
+  selector:
+    app: parity-dev

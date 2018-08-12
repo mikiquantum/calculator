@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-dapp-calculator
+  labels:
+    app: simple-dapp-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-dapp-calculator
+  template:
+    metadata:
+      labels:
+        app: simple-dapp-calculator
+    spec:
+      containers:
+      - name: simple-dapp-calculator
+        image: registry.gitlab.com/mikiquantum/simple-dapp-calculator:latest
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: gitlab-auth
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: simple-dapp-calculator
