@@ -17,6 +17,7 @@ test:
     - npm install
     - npm install -g truffle@4.1.13
   script:
+    - truffle compile
     - node scripts/test.js --env=jsdom
     - truffle test
 
