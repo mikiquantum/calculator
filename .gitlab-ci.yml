@@ -54,7 +54,7 @@ migrate_contracts:
     - echo "Migrating Smart Contracts"
     - echo -n "${ETH_ACCOUNT}" | base64 -d > account
     - export PROVIDER_ENDPOINT=$PROVIDER_TEST_ENDPOINT
-    - truffle migrate --network test
+    - truffle migrate --network dev
 
 deploy:
   stage: deploy
