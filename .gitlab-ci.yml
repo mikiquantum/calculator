@@ -2,14 +2,15 @@ image: node:9.11
 
 stages:
   - test
+  - migrate_contracts
   - build_sources
   - build_docker
-  - migrate_contracts
   - deploy
 
 cache:
   paths:
-  - node_modules/
+    - node_modules/
+    - build/
 
 test:
   stage: test
@@ -21,14 +22,28 @@ test:
     - node scripts/test.js --env=jsdom
     - truffle test
 
+migrate_contracts:
+  stage: migrate_contracts
+  before_script:
+    - npm install
+    - npm install -g truffle@4.1.13
+  script:
+    - echo "Migrating Smart Contracts"
+    - export PROVIDER_ENDPOINT=$PROVIDER_TEST_ENDPOINT
+    - truffle migrate --network dev
+  artifacts:
+    paths:
+      - build/
+
 build_sources:
   stage: build_sources
   before_script:
     - npm install
     - npm install -g truffle@4.1.13
   script:
-    - truffle compile
     - npm run-script build
+  dependencies:
+    - migrate_contracts
   artifacts:
     paths:
       - build_webpack/
@@ -44,17 +59,6 @@ build_docker:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
     - docker build -t registry.gitlab.com/mikiquantum/simple-dapp-calculator .
     - docker push registry.gitlab.com/mikiquantum/simple-dapp-calculator
-
-migrate_contracts:
-  stage: migrate_contracts
-  before_script:
-    - npm install
-    - npm install -g truffle@4.1.13
-  script:
-    - echo "Migrating Smart Contracts"
-    - echo -n "${ETH_ACCOUNT}" | base64 -d > account
-    - export PROVIDER_ENDPOINT=$PROVIDER_TEST_ENDPOINT
-    - truffle migrate --network dev
 
 deploy:
   stage: deploy
