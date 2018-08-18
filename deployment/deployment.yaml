@@ -17,6 +17,7 @@ spec:
       containers:
       - name: simple-dapp-calculator
         image: registry.gitlab.com/mikiquantum/simple-dapp-calculator:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
       imagePullSecrets:
