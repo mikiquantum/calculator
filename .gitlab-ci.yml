@@ -67,3 +67,4 @@ deploy:
   when: manual
   script:
     - echo "Deploying"
+    - kubectl apply -f deployment/deployment.yaml

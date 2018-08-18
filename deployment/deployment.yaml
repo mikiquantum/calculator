@@ -34,3 +34,4 @@ spec:
     name: http
   selector:
     app: simple-dapp-calculator
+  type: LoadBalancer

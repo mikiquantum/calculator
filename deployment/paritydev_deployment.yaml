@@ -39,3 +39,4 @@ spec:
     name: ws
   selector:
     app: parity-dev
+  type: LoadBalancer
