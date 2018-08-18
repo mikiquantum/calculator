@@ -1,4 +1,4 @@
-image: node:9.11
+
 
 stages:
   - test
@@ -14,6 +14,7 @@ cache:
 
 test:
   stage: test
+  image: node:9.11
   before_script:
     - npm install
     - npm install -g truffle@4.1.13
@@ -24,6 +25,7 @@ test:
 
 migrate_contracts:
   stage: migrate_contracts
+  image: node:9.11
   before_script:
     - npm install
     - npm install -g truffle@4.1.13
@@ -37,6 +39,7 @@ migrate_contracts:
 
 build_sources:
   stage: build_sources
+  image: node:9.11
   before_script:
     - npm install
     - npm install -g truffle@4.1.13
@@ -64,6 +67,8 @@ deploy:
   stage: deploy
   dependencies:
     - build_docker
+  environment:
+    name: test
   when: manual
   script:
     - echo "Deploying"
