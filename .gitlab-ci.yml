@@ -63,7 +63,7 @@ build_docker:
     - docker build -t registry.gitlab.com/mikiquantum/simple-dapp-calculator .
     - docker push registry.gitlab.com/mikiquantum/simple-dapp-calculator
 
-deploy:
+deploy_test:
   stage: deploy
   image: alpine:3.7
   dependencies:
@@ -72,4 +72,4 @@ deploy:
     name: test
   when: manual
   script:
-    - ./deploy.sh
+    - deploy.sh

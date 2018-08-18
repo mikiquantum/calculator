@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 echo "Installing kubectl + Config - Build custom image"
 apk update  && apk add --no-cache curl
