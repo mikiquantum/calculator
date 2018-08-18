@@ -72,4 +72,4 @@ deploy:
     name: test
   when: manual
   script:
-
+    - ./deploy.sh
